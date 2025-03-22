@@ -11,9 +11,10 @@ GRR20231950
 
 ### Saída gerada:
 Resultados Finais:
-Melhor AUC: **0.15933919569563806**
-Melhor tamanho de imagem em relação ao AUC: **Modelos/512_yolov4_5000_dados_celulas.txt**
-Melhor tamanho de imagem baseado em F1-score: **0.8859813084112149** em **Modelos/800_yolov4_5000_dados_celulas.txt** - Threshold: **0.75**
+
+- Melhor AUC: **0.15933919569563806**
+- Melhor tamanho de imagem em relação ao AUC: **Modelos/512_yolov4_5000_dados_celulas.txt**
+- Melhor tamanho de imagem baseado em F1-score: **0.8859813084112149** em **Modelos/800_yolov4_5000_dados_celulas.txt** - Threshold: **0.75**
 
 ## Conclusões
 
