@@ -9,7 +9,7 @@ GRR20231950
 
 ## Requisitos
 
-(OPCIONAL): Criação de um ambiente virtual:
+Criação de um ambiente virtual:
 ```python3 -m venv -my-venv```
 
 Instalação de bibliotecas do python:

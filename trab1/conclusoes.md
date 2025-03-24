@@ -20,23 +20,23 @@ Resultados Finais:
 
 Conforme os resultados obtidos por meio do script e dos gráficos de Precision-Recall, observa-se que o melhor tamanho da imagem foi de 800, pois com um valor de threshold de 0.75, obteve um F1-score próximo de 0.886, que significa que nesse ponto houve um equilíbrio entre precision e recall superior aos demais valores.
 
-Um fato curioso é que a imagem 800 apresentou um valor de AUC PR (Área sob a curva - Precision/Recall) igual a 0.1476183345937469. Dessa forma, sendo o segundo valor entre as três imagens.
+A curva de Precision-Recall é uma medida útil para comparar o desempenho da classe positiva quando os dados estão desequilibrados [1]. Além disso, se importa menos com a classe negativa frequente [2]. Uma pontuação de 1.0 representa um modelo com habilidade perfeita.
 
-A AUC PR é uma medida útil para comparar o desempenho da classe positiva quando os dados estão desequilibrados ([1]). Além disso, se importa menos com a classe negativa frequente. Uma pontuação de 1.0 representa um modelo com habilidade perfeita.
+A análise da melhor imagem depende de como os nossos dados estão suportados (equilibrados ou desequilibrados).
 
-A análise da melhor imagem depende de como os nossos dados estão suportados (equilibrados ou desequilibrados), porém não podemos afirmar se está desequilibrado, pois está faltando o número de TN (Verdadeiro Negativo).
+Podemos realizar o cálculo de AUC PR (Área sob a curva de Precision-Recall) para obter um número que que descreva o desempenho do modelo [2]. Porém, os valores de AUC PR ap calculados foram abaixos, o qual podem indicar baixo número de thresholds, desequilíbrio de classes, entre outros fatores.
 
-Os baixos valores de AUC PR podem indicar baixo número de thresholds, desequilíbrio de classes, entre outros.
+Portanto, as imagens de tamanho 800 com threshold de 0.75 são as mais indicadas, pois apresentou melhores valores de equilibrio entre Precision-Recall.
 
-Portanto,  se o critério for o equilíbrio entre precisão e recall, as imagens de tamanho 800 com threshold de 0.75 são as mais indicadas; se o critério for a performance global medida pelo AUC PR, as imagens de tamanho 512 apresentam uma leve vantagem.
+OBS: 
 
-OBS: AUC ROC = Dados mais equilibrados
-     AUC PR = Dados mais desequilibrados[1]
+- AUC ROC = Dados mais equilibrados
+
+- AUC PR = Dados mais desequilibrados[1]
 
 
 
 Referência:
 [1] - https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc?hl=pt-br#:~:text=modelo%20hipot%C3%A9tico%20perfeito.-,%C3%81rea%20sob%20a%20curva%20(AUC),classificar%C3%A1%20positivo%20maior%20que%20negativo.
 
-https://neptune.ai/blog/f1-score-accuracy-roc-auc-pr-auc
-
+[2] - https://neptune.ai/blog/f1-score-accuracy-roc-auc-pr-auc
