@@ -96,6 +96,8 @@ def main():
     best_threshold = 0
     best_image_auc = ""
     best_image_f1 = ""
+    best_current_f1 = 0
+    best_current_threshold = 0
 
     # Vetores para armazenar os resultados
     thresholds = []
@@ -113,6 +115,12 @@ def main():
                     converted_data = text_to_float(data)
                     calc(converted_data, thresholds, sensi, precision, F1_score)
 
+                    #Resgata o melhor valor de F1-score para a imagem atual
+                    if F1_score[-1] > best_current_f1:
+                        best_current_f1 = F1_score[-1]
+                        best_current_threshold = thresholds[-1]
+
+                    #Resgata o melhor valor de F1-score para todas as imagens
                     if F1_score[-1] > max_f1:
                         max_f1 = F1_score[-1]
                         best_threshold = thresholds[-1]
@@ -128,9 +136,13 @@ def main():
         sensi.clear()
         precision.clear()
         F1_score.clear()  
+        print("")
+        print (f"Melhor resultado - threshold: {best_current_threshold} -  F1-Score: {best_current_f1}")
         print (f"AUC: {auc}\n")  
         print (100 * "*")
         print ("")
+        best_current_f1 = 0
+        best_current_threshold = 0
 
     #Conclusão dos resultados
     print("\nResultados Finais:")
