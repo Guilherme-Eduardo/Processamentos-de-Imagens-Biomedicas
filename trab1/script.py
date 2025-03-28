@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sklearn
 from sklearn.metrics import auc
+from sklearn.metrics import PrecisionRecallDisplay
 
 
 # Função para extrair informações de uma linha do arquivo
@@ -75,7 +76,26 @@ def print_values (threshold, sensi, precision, F1_score, tp, fn, fp):
     print (f"F1-score: 2 * ({precision} * {sensi} / {precision} + {sensi}) = {F1_score}")
 
 
-# Função para geração dos graficos
+# Função para geração dos graficos baseado na AP (Average Precision)
+def generate_graph_ap(sensi, precision, size_image):
+    # Calcula o AP usando sua função calc_ap
+    ap_value = calc_ap(precision, sensi)
+    
+    # Define o nome para salvar o gráfico
+    name = f"AP - Grafico_Precision_Recall_{size_image}.png"
+    
+    # Cria o display da curva Precision-Recall usando os valores já calculados
+    disp = PrecisionRecallDisplay(precision=precision, recall=sensi, average_precision=ap_value)
+    disp.plot()
+    
+    plt.title(f"Gráfico Precision-Recall - AP = {ap_value}")
+    plt.xlabel("Recall (Sensibilidade)")
+    plt.ylabel("Precision (Precisão)")
+    plt.xlim([0.6, 1.0])
+    plt.ylim([0.6, 1.0])
+    plt.savefig(name)
+
+#Gera o gráfico de Precision Recall
 def generate_graph(sensi, precision, size_image ):
 
     name = f"Grafico_Precision_Recall_{size_image}.png"
@@ -141,6 +161,7 @@ def main():
                         best_image_f1 = file_name
 
         ap = generate_graph(sensi, precision, size_image[count])
+        generate_graph_ap(sensi, precision, size_image[count])
         if ap > max_ap:
             max_ap = ap
             best_image_ap = file_name
