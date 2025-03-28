@@ -34,6 +34,20 @@ def text_to_float(data):
         data[key] = float(value)
     return data
 
+#Calcula o AP (Average_precision)
+def calc_ap(precision, recall):
+    # Ordena os pares (recall, precision) com base no recall
+    sorted_pairs = sorted(zip(recall, precision))
+    sorted_recall, sorted_precision = zip(*sorted_pairs)
+    
+    ap = 0.0
+    for i in range(1, len(sorted_recall)):
+        ap += (sorted_recall[i] - sorted_recall[i - 1]) * sorted_precision[i]
+    return ap
+
+
+
+
 # Função responsável por realizar os cálculos de métricas
 def calc(data, thresholds, sensi, precision, F1_score):
     tp = data["TP"]
@@ -66,18 +80,18 @@ def generate_graph(sensi, precision, size_image ):
 
     name = f"Grafico_Precision_Recall_{size_image}.png"
     
-    # Calcula o AUC para a curva Precision-Recall
-    auc_value = auc(sensi, precision)
+    # Calcula o ap para a curva Precision-Recall
+    ap_value = calc_ap(precision, sensi)
 
     plt.figure()    
     plt.plot(sensi, precision, 'o-', label='Curva Precision-Recall')
     plt.xlabel('Recall (Sensibilidade)')
     plt.ylabel('Precision (Precisão)')
-    plt.title(f"Gráfico Precision-Recall - AUC = {auc_value}")
+    plt.title(f"Gráfico Precision-Recall - AP = {ap_value}")
     plt.legend(loc='best')    
     plt.savefig(name)
         
-    return auc_value
+    return ap_value
 
 ####################################################################################
 
@@ -91,10 +105,10 @@ def main():
     size_image = [512,608,800]
     count = 0
     token = "conf_thresh"
-    max_auc = 0
+    max_ap = 0
     max_f1 = 0
     best_threshold = 0
-    best_image_auc = ""
+    best_image_ap = ""
     best_image_f1 = ""
     best_current_f1 = 0
     best_current_threshold = 0
@@ -126,10 +140,10 @@ def main():
                         best_threshold = thresholds[-1]
                         best_image_f1 = file_name
 
-        auc = generate_graph(sensi, precision, size_image[count])
-        if auc > max_auc:
-            max_auc = auc
-            best_image_auc = file_name
+        ap = generate_graph(sensi, precision, size_image[count])
+        if ap > max_ap:
+            max_ap = ap
+            best_image_ap = file_name
 
         count += 1
         thresholds.clear()
@@ -138,7 +152,7 @@ def main():
         F1_score.clear()  
         print("")
         print (f"Melhor resultado - threshold: {best_current_threshold} -  F1-Score: {best_current_f1}")
-        print (f"AUC: {auc}\n")  
+        print (f"Average Precision (AP): {ap}\n")  
         print (100 * "*")
         print ("")
         best_current_f1 = 0
@@ -146,8 +160,8 @@ def main():
 
     #Conclusão dos resultados
     print("\nResultados Finais:")
-    print(f"Melhor AUC: {max_auc}")
-    print(f"Melhor tamanho de imagem em relação ao AUC: {best_image_auc}")
+    print(f"Melhor Average Precision: {max_ap}")
+    print(f"Melhor tamanho de imagem em relação ao ap: {best_image_ap}")
     print(f"Melhor tamanho de imagem baseado em F1-score: {max_f1} em {best_image_f1} - Threshold: {best_threshold}")
     
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-
 # Trabalho 1 para a disciplina de Processamento de Imagens Biomédicas
 
 Professor: Lucas Ferrari
@@ -10,10 +9,11 @@ GRR20231950
 ## Resultados
 
 ### Saída gerada:
+
 Resultados Finais:
 
-- Melhor AUC: **0.15933919569563806**
-- Melhor tamanho de imagem em relação ao AUC: **Modelos/512_yolov4_5000_dados_celulas.txt**
+- Melhor AP: **0.1560419229962485**
+- Melhor tamanho de imagem em relação ao AP: **Modelos/512_yolov4_5000_dados_celulas.txt**
 - Melhor tamanho de imagem baseado em F1-score: **0.8859813084112149** em **Modelos/800_yolov4_5000_dados_celulas.txt** - Threshold: **0.75**
 
 ## Conclusões
@@ -24,19 +24,15 @@ A curva de Precision-Recall é uma medida útil para comparar o desempenho da cl
 
 A análise da melhor imagem depende de como os nossos dados estão suportados (equilibrados ou desequilibrados).
 
-Podemos realizar o cálculo de AUC PR (Área sob a curva de Precision-Recall) para obter um número que que descreva o desempenho do modelo [2]. Porém, os valores de AUC PR ap calculados foram abaixos, o qual podem indicar baixo número de thresholds, desequilíbrio de classes, entre outros fatores.
+Podemos realizar o cálculo de AP(Average Precision), o qual é um resumo da curva de precisão-recall (PR) em um único valor que representa a média de todas as precisões [1]. Os valores variam de 0 até 1, ou seja, quanto maior a métrica, melhor o desempenho do modelo em diferentes limites.
+
+Porém, os valores de AP calculados foram abaixos, o qual podem indicar baixo número de thresholds, desequilíbrio de classes, entre outros fatores.
 
 Portanto, as imagens de tamanho 800 com threshold de 0.75 são as mais indicadas, pois apresentou melhores valores de equilibrio entre Precision-Recall.
-
-OBS: 
-
-- AUC ROC = Dados mais equilibrados
-
-- AUC PR = Dados mais desequilibrados[1]
 
 
 
 Referência:
-[1] - https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc?hl=pt-br#:~:text=modelo%20hipot%C3%A9tico%20perfeito.-,%C3%81rea%20sob%20a%20curva%20(AUC),classificar%C3%A1%20positivo%20maior%20que%20negativo.
+[1] - https://docs.kolena.com/metrics/average-precision/#:~:text=Average%20precision%20(AP)%20summarizes%20a,and%20AP%20scores%20of%201.
 
-[2] - https://neptune.ai/blog/f1-score-accuracy-roc-auc-pr-auc
+
