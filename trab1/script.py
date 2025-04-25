@@ -37,16 +37,20 @@ def text_to_float(data):
 
 #Calcula o AP (Average_precision)
 def calc_ap(precision, recall):
-    # Ordena os pares (recall, precision) com base no recall
+    
+
+    #Agrupa os indices de Precicion e recall e ordena de forma crescente com base no vetor de recall    
     sorted_pairs = sorted(zip(recall, precision))
+
+    #Desagrupa os valores mantendo a associação 
     sorted_recall, sorted_precision = zip(*sorted_pairs)
     
     ap = 0.0
+
+    # Calcula o AP
     for i in range(1, len(sorted_recall)):
         ap += (sorted_recall[i] - sorted_recall[i - 1]) * sorted_precision[i]
     return ap
-
-
 
 
 # Função responsável por realizar os cálculos de métricas
