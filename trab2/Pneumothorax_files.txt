@@ -13,4 +13,3 @@ train/Pneumothorax/000046.dcm
 train/Pneumothorax/000049.dcm
 train/Pneumothorax/000050.dcm
 train/Pneumothorax/000052.dcm
-

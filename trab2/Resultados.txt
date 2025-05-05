@@ -1,0 +1,53 @@
+
+CORREL
+TP = 8, FP = 7, FN = 7, TN = 8
+Sensibilidade (Recall): 0.53
+Especificidade: 0.53
+
+Matriz de Confusão:
+          Previsto
+         |  1  |  0 
+   ------|----------
+   Real 1|   8 |   7
+   Real 0|   7 |   8
+
+####################################################################################################
+CHISQR
+TP = 10, FP = 7, FN = 5, TN = 8
+Sensibilidade (Recall): 0.67
+Especificidade: 0.53
+
+Matriz de Confusão:
+          Previsto
+         |  1  |  0 
+   ------|----------
+   Real 1|  10 |   5
+   Real 0|   7 |   8
+
+####################################################################################################
+INTERSECT
+TP = 9, FP = 7, FN = 6, TN = 8
+Sensibilidade (Recall): 0.60
+Especificidade: 0.53
+
+Matriz de Confusão:
+          Previsto
+         |  1  |  0 
+   ------|----------
+   Real 1|   9 |   6
+   Real 0|   7 |   8
+
+####################################################################################################
+BHATTACHARYYA
+TP = 6, FP = 9, FN = 9, TN = 6
+Sensibilidade (Recall): 0.40
+Especificidade: 0.40
+
+Matriz de Confusão:
+          Previsto
+         |  1  |  0 
+   ------|----------
+   Real 1|   6 |   9
+   Real 0|   9 |   6
+
+####################################################################################################

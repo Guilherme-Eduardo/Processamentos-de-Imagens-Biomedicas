@@ -3,4 +3,3 @@ numpy
 pydicom
 opencv-python
 scikit-image
-

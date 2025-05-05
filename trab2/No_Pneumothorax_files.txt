@@ -13,4 +13,3 @@ train/No Pneumothorax/000017.dcm
 train/No Pneumothorax/000018.dcm
 train/No Pneumothorax/000019.dcm
 train/No Pneumothorax/000020.dcm
-

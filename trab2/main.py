@@ -14,9 +14,7 @@ import os
 
 def convert (data):
     # Lendo o arquivo DICOM
-    base_path = "siim_small"
-    full_path = os.path.join(base_path, data)
-    ds = dcmread (full_path)
+    ds = dcmread (data)
 
     #Extrai as informações (pixels)
     current_data = ds.pixel_array
@@ -48,14 +46,12 @@ def main ():
     all_data = pneumothorax + no_pneumothorax
 
 
-    # Vetor com a classificação real dos meus dados (1 = pos / 0 = neg)
+    # Vetor com a classe real dados (1 = pos / 0 = neg)
     all_labels = []
     for path in pneumothorax:
         all_labels.append(1)
     for path in no_pneumothorax:
         all_labels.append(0)
-
-
     
     # Dicionário de métodos com os tipos de correlações
     methods = {
@@ -65,13 +61,11 @@ def main ():
         "BHATTACHARYYA": cv2.HISTCMP_BHATTACHARYYA
     }
 
-
+    # Vetores de 4 posição. Cada posição representa um metodo que será incrementado
     tp = [0] * 4
     tn = [0] * 4
     fp = [0] * 4
     fn = [0] * 4
-
-
 
     for i in range(len(all_data)):
         main_data = convert(all_data[i])	
@@ -82,12 +76,12 @@ def main ():
             if method_code in [cv2.HISTCMP_CORREL, cv2.HISTCMP_INTERSECT]:
                 best_score = -1
             else:
-                best_score = float('inf')
+                best_score = float('inf') # Valor infinito (P/ CHISQR e BHATTACHARYYA). Para esses métodos, valor negativo é melhor
             predicted_class = -1
 
             for j in range(len(all_data)):
                 if i == j:
-                    continue
+                    continue              # Não compara com ele mesmo
                 #Dados que iremos realizar a comparação com o dado principal do laço
                 second_data = convert(all_data[j])
                 data_normalized = normalize_data(second_data)
@@ -106,42 +100,38 @@ def main ():
                     if score < best_score:
                         best_score = score
                         predicted_class = data_class
-            # Realiza a comparação das méticas 
-            if predicted_class == 1 and main_class == 1:
+            # Realiza a comparação das métricas (Correlações)
+            if predicted_class == 1 and main_class == 1:    #Verdadeiro Positivo
                 tp[method_index] += 1
-            elif predicted_class == 1 and main_class == 0:
+            elif predicted_class == 1 and main_class == 0:  # Falso Positivo
                 fp[method_index] += 1
-            elif predicted_class == 0 and main_class == 1:
+            elif predicted_class == 0 and main_class == 1:  # Falso Negativo
                 fn[method_index] += 1
-            elif predicted_class == 0 and main_class == 0:
+            elif predicted_class == 0 and main_class == 0:  # Verdadeiro Negativo
                 tn[method_index] += 1
-                    
-
-                   
-        
     
     #calcula sensibilidade
-    #calcula precision
-    #joga na saida a matriz de confusao
-    for i, method_name in enumerate(methods.keys()):
-        total = tp[i] + tn[i] + fp[i] + fn[i]
-        sensibility = tp[i] / (tp[i] + fn[i]) if (tp[i] + fn[i]) else 0
-        specificity = tn[i] / (tn[i] + fp[i]) if (tn[i] + fp[i]) else 0
-        accuracy = (tp[i] + tn[i]) / total if total else 0
+    #calcula especificada
+    #Saida na matriz de confusao
+    #Joga a saída no arquivo de resultados
+    with open ("Resultados.txt",  'a') as results:
+        for i, method_name in enumerate(methods.keys()):        
+            sensibility = tp[i] / (tp[i] + fn[i])
+            specificity = tn[i] / (tn[i] + fp[i])     
 
-        print(f"\n########## {method_name} ########## ")
-        print(f"TP = {tp[i]}, FP = {fp[i]}, FN = {fn[i]}, TN = {tn[i]}")
-        print(f"Sensibilidade (Recall): {sensibility:.2f}")
-        print(f"Especificidade: {specificity:.2f}")
-        print("")
-        print("\nMatriz de Confusão:")
-        print(f"          Previsto")
-        print(f"         |  1  |  0 ")
-        print(f"   ------|----------")
-        print(f"   Classe Real 1| {tp[i]:3} | {fn[i]:3}")
-        print(f"   Classe Real 0| {fp[i]:3} | {tn[i]:3}")
-        print("")
-      
+            results.write(f"\n{method_name}\n")
+            results.write(f"TP = {tp[i]}, FP = {fp[i]}, FN = {fn[i]}, TN = {tn[i]}\n")
+            results.write(f"Sensibilidade (Recall): {sensibility:.2f}\n")
+            results.write(f"Especificidade: {specificity:.2f}\n")        
+            results.write("\nMatriz de Confusão:\n")
+            results.write(f"          Previsto\n")
+            results.write(f"         |  1  |  0 \n")
+            results.write(f"   ------|----------\n")
+            results.write(f"   Real 1| {tp[i]:3} | {fn[i]:3}\n")
+            results.write(f"   Real 0| {fp[i]:3} | {tn[i]:3}\n")
+            results.write("\n")
+            results.write(100*"#")
+        
 
 if __name__ == "__main__":
     main()
